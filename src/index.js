@@ -38,8 +38,29 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
-}
+    var startSpan = 0;
+    var substr = expr.substr(startSpan, 10);
+    var letter = "";
+    var result = "";
+    while (substr) {
+      let number = +substr;
+  
+      if (isNaN(number))
+        result += " ";
+      else {
+        while (number) {
+          if (number % 100 === 10) letter += ".";
+          if (number % 100 === 11) letter += "-";
+          number = Math.trunc(number / 100);
+        }
+        result += MORSE_TABLE[letter.split('').reverse().join('')];
+      }
+      letter = "";
+      startSpan += 10;
+      substr = expr.substr(startSpan, 10);
+    }
+    return result;
+  }
 
 module.exports = {
     decode
